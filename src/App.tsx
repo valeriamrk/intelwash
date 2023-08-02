@@ -8,6 +8,11 @@ const oidcConfig = {
   redirectUri: import.meta.env.VITE_REDIRECT_URI,
 };
 
+console.log(import.meta.env.VITE_AUTHORITY);
+console.log(import.meta.env.VITE_CLIENT_ID);
+console.log(import.meta.env.VITE_CLIENT_SECRET);
+console.log(import.meta.env.VITE_REDIRECT_URI);
+
 function App() {
   return (
     <>
