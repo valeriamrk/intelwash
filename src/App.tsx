@@ -1,4 +1,4 @@
-import { BrowserRouter, Outlet, Route, Router, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import { AuthProvider } from "oidc-react";
 import LoggedIn from "./components/loggedIn/LoggedIn";
