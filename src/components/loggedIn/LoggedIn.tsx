@@ -4,7 +4,7 @@ const LoggedIn = () => {
   return (
     <div>
       LoggedIn
-      <Link to="/"> to main page</Link>
+      <Link to="/"> to main page!</Link>
     </div>
   );
 };
