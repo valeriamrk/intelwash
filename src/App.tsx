@@ -1,5 +1,7 @@
+import { BrowserRouter, Outlet, Route, Router, Routes } from "react-router-dom";
 import "./App.css";
 import { AuthProvider } from "oidc-react";
+import LoggedIn from "./components/loggedIn/LoggedIn";
 
 const oidcConfig = {
   authority: import.meta.env.VITE_AUTHORITY,
@@ -17,10 +19,10 @@ function App() {
   return (
     <>
       <AuthProvider {...oidcConfig}>
-        <div className="card">
-          <button>Кнопка 1</button>
-          <button>Кнопка 2</button>
-        </div>
+        <Routes>
+          <Route path="/" element={<div className="card">hi</div>}></Route>
+          <Route path="oauth2-redirect" element={<LoggedIn />}></Route>
+        </Routes>
       </AuthProvider>
     </>
   );
