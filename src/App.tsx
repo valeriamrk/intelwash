@@ -21,7 +21,7 @@ function App() {
       <AuthProvider {...oidcConfig}>
         <Routes>
           <Route path="/" element={<div className="card">hi</div>}></Route>
-          <Route path="oauth2-redirect" element={<LoggedIn />}></Route>
+          <Route path="/oauth2-redirect" element={<LoggedIn />}></Route>
         </Routes>
       </AuthProvider>
     </>
