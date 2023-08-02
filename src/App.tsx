@@ -12,18 +12,19 @@ import MainPage from "./components/mainPage/MainPage";
 //   redirect_uri: import.meta.env.VITE_REDIRECT_URI,
 // };
 
+// const oidcConfig = {
+//   authority: import.meta.env.VITE_AUTH,
+//   client_id: import.meta.env.VITE_CL_ID,
+//   redirect_uri: import.meta.env.VITE_REDIR_URI,
+// };
+
 const oidcConfig = {
-  authority: import.meta.env.VITE_AUTH,
-  client_id: import.meta.env.VITE_CL_ID,
-  redirect_uri: import.meta.env.VITE_REDIR_URI,
-  // redirect_uri: "https://localhost:5173/oauth2-redirect",
-  // redirect_uri: "https://intelwash.vercel.app/oauth2-redirect",
+  authority: "https://demo.duendesoftware.com",
+  client_id: "interactive.public.short",
+  redirect_uri: "https://intelwash.vercel.app/authentication/callback",
 };
 
-console.log(import.meta.env.VITE_AUTHORITY);
-console.log(import.meta.env.VITE_CLIENT_ID);
-console.log(import.meta.env.VITE_CLIENT_SECRET);
-console.log(import.meta.env.VITE_REDIRECT_URI);
+console.log("oidcConfig", oidcConfig);
 
 function App() {
   return (
