@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import { AuthProvider } from "oidc-react";
 import LoggedIn from "./components/loggedIn/LoggedIn";
+import MainPage from "./components/mainPage/MainPage";
 
 const oidcConfig = {
   authority: import.meta.env.VITE_AUTHORITY,
@@ -20,7 +21,7 @@ function App() {
     <>
       <AuthProvider {...oidcConfig}>
         <Routes>
-          <Route path="/" element={<div className="card">hi</div>}></Route>
+          <Route path="/" element={<MainPage />}></Route>
           <Route path="/oauth2-redirect" element={<LoggedIn />}></Route>
         </Routes>
       </AuthProvider>
