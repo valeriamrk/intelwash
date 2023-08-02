@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import { AuthProvider } from "oidc-react";
+import { AuthProvider } from "react-oidc-context";
+
 import LoggedIn from "./components/loggedIn/LoggedIn";
 import MainPage from "./components/mainPage/MainPage";
 
