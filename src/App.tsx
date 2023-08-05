@@ -18,18 +18,21 @@ import MainPage from "./components/mainPage/MainPage";
 //   redirect_uri: import.meta.env.VITE_REDIR_URI,
 // };
 
-const oidcConfig = {
-  authority: "https://sts-identity.intelwash.ru",
-  client_id: "UiTest.client_ID",
-  client_secret: "UiTestClientSecret",
-  redirect_uri: "https://intelwash.vercel.app/oauth2-redirect",
-};
+// Vercel config
 // const oidcConfig = {
 //   authority: "https://sts-identity.intelwash.ru",
 //   client_id: "UiTest.client_ID",
 //   client_secret: "UiTestClientSecret",
-//   redirect_uri: "https://localhost:5173/oauth2-redirect",
+//   redirect_uri: "https://intelwash.vercel.app/oauth2-redirect",
 // };
+
+// Localhost config
+const oidcConfig = {
+  authority: "https://sts-identity.intelwash.ru",
+  client_id: "UiTest.client_ID",
+  client_secret: "UiTestClientSecret",
+  redirect_uri: "https://localhost:5173/oauth2-redirect",
+};
 
 console.log("oidcConfig", oidcConfig);
 
@@ -40,7 +43,6 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />}></Route>
           <Route path="/oauth2-redirect" element={<LoggedIn />}></Route>
-          {/* <Route path="/authentication/callback" element={<LoggedIn />}></Route> */}
         </Routes>
       </AuthProvider>
     </>
