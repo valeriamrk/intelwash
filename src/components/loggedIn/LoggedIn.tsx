@@ -1,17 +1,13 @@
 import { useAuth } from "react-oidc-context";
-import { Link } from "react-router-dom";
-import {
-  PageContent,
-  PageFooter,
-  PageHeader,
-  PageLayout,
-} from "../layout/Layout";
+import { useNavigate } from "react-router-dom";
+import { PageContent, PageHeader, PageLayout } from "../layout/Layout";
 import { Button } from "../ui/button";
-import { AdminData, UserData, apiService } from "../../services/api";
+import { apiService } from "../../services/api";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import SimpleTable from "../table/SimpleTable";
-import { AxiosError } from "axios";
+import ClaimsTable from "../table/ClaimsTable";
+import Loader from "../loader/Loader";
 
 type DataType = {
   code: number;
@@ -25,9 +21,19 @@ const LoggedIn = () => {
   const [isLoadingUserData, setIsLoadingUserData] = useState(false);
   const [isLoadingAdminData, setIsLoadingAdminData] = useState(false);
   const token = auth.user?.access_token || "";
-  console.log(token);
 
-  const isUser = false;
+  const claims = auth.user?.profile;
+  const role = auth.user?.profile.role;
+
+  let navigate = useNavigate();
+
+  if (auth.isLoading) {
+    return (
+      <div className="flex justify-center">
+        <Loader />
+      </div>
+    );
+  }
 
   const getOpenDataHandler = async () => {
     try {
@@ -77,70 +83,80 @@ const LoggedIn = () => {
           code: error.response.status,
         },
       ]);
-
       setIsLoadingAdminData(false);
       return error.message;
     }
   };
 
-  // Результат ответа API – отобразить в web-приложении (код ответа, и данные) ОК
+  const openDataButton = () => {
+    return isLoadingUserData ? (
+      <Button disabled className="m-1">
+        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        Please wait
+      </Button>
+    ) : (
+      <Button className="m-1" onClick={getOpenDataHandler}>
+        Получить данные
+      </Button>
+    );
+  };
 
-  // разобрать все Claims которые есть в JWT токенах, и вывести их в виде таблицы имя/значение. Разрешенный список Scopes для тестового клиента: ( openid email profile roles permissions UiTest.API )
+  const secureDataButton = () => {
+    return isLoadingAdminData ? (
+      <Button disabled className="m-1">
+        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        Please wait
+      </Button>
+    ) : (
+      <Button className="m-1" onClick={getSecureDataHandler}>
+        Получить закрытые данные
+      </Button>
+    );
+  };
 
-  // зависимости от Claims в токенах отображать разные кнопки доступа к данным
+  const logoutSessionHandler = () => {
+    auth.removeUser();
+    navigate("/");
+  };
 
-  // сделать редирект при логауте на главную
+  const logoutIdentityHandler = () => {
+    auth.signoutRedirect();
+  };
 
-  // сделать логаут на айдентити сервере
-
-  console.log(auth);
   return (
     <PageLayout>
       <PageHeader>
         <div className="w-full flex justify-end item-end">
           <Button
-            className="bg-blue-700 hover:bg-blue-800"
-            onClick={() => void auth.removeUser()}
+            className="bg-blue-700 hover:bg-blue-800 m-1"
+            onClick={logoutSessionHandler}
+            // onClick={() => void auth.signoutRedirect()}
           >
-            Log out
+            Закончить сессию
+          </Button>
+          <Button
+            className="bg-blue-700 hover:bg-blue-800 m-1"
+            onClick={logoutIdentityHandler}
+            // onClick={() => void auth.signoutRedirect()}
+          >
+            Выйти из IdentityServer
           </Button>
         </div>
       </PageHeader>
+
       <PageContent>
-        {isUser ? (
-          <Button
-            className="bg-amber-500 hover:bg-cyan-600"
-            onClick={getOpenDataHandler}
-          >
-            Получить данные
-          </Button>
-        ) : (
+        {claims ? <ClaimsTable data={claims} /> : null}
+
+        {role === "TestAdminRole" ? (
           <div>
-            {isLoadingUserData ? (
-              <Button disabled>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Please wait
-              </Button>
-            ) : (
-              <Button onClick={getOpenDataHandler}>Получить данные</Button>
-            )}
-            {isLoadingAdminData ? (
-              <Button disabled>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Please wait
-              </Button>
-            ) : (
-              <Button onClick={getSecureDataHandler}>
-                Получить закрытые данные
-              </Button>
-            )}
+            {openDataButton()}
+            {secureDataButton()}
           </div>
+        ) : (
+          <div> {openDataButton()}</div>
         )}
         {dataArray.length === 0 ? null : <SimpleTable data={dataArray} />}
       </PageContent>
-      <PageFooter>
-        <Link to="/"> to main page!</Link>
-      </PageFooter>
     </PageLayout>
   );
 };

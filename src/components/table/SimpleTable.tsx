@@ -17,7 +17,6 @@ type TableProps = {
 };
 
 const SimpleTable = ({ data }: TableProps) => {
-  console.log(data);
   return (
     <Table>
       <TableHeader>
