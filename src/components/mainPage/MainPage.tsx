@@ -1,16 +1,11 @@
 import { useAuth } from "react-oidc-context";
 import { Button } from "@/components/ui/button";
 import Loader from "../loader/Loader";
+import { useState } from "react";
 
 const MainPage = () => {
   const auth = useAuth();
-
-  switch (auth.activeNavigator) {
-    case "signinSilent":
-      return <div>Signing you in...</div>;
-    case "signoutRedirect":
-      return <div>Signing you out...</div>;
-  }
+  const [error, setError] = useState<any>("");
 
   if (auth.isLoading) {
     return (
@@ -21,10 +16,22 @@ const MainPage = () => {
   }
 
   if (auth.error) {
-    return <div>Oops... {auth.error.message}</div>;
+    setError(auth.error);
   }
 
-  return <Button onClick={() => void auth.signinRedirect()}>Log in</Button>;
+  const onSignInHandler = async () => {
+    try {
+      await auth.signinRedirect();
+    } catch (error: any) {
+      setError(error.message);
+    }
+  };
+  return (
+    <div>
+      <Button onClick={onSignInHandler}>Log in</Button>
+      {error ? <div>Ошибка: {error}</div> : ""}
+    </div>
+  );
 };
 
 export default MainPage;
