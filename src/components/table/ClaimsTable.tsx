@@ -7,7 +7,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+type ElementArrayTypes = Array<string>;
+type TransformedDataTypes = Array<ElementArrayTypes>;
+
 const ClaimsTable = ({ data }: any) => {
+  const transformedDataForTable: TransformedDataTypes = Object.entries(data);
   return (
     <Table>
       <TableHeader>
@@ -17,7 +21,7 @@ const ClaimsTable = ({ data }: any) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {Object.entries(data).map((el) => (
+        {transformedDataForTable.map((el) => (
           <TableRow key={el[0]} className="p-px">
             <TableCell className="text-left p-px">{el[0]}</TableCell>
             <TableCell className="text-left p-px">{el[1]}</TableCell>

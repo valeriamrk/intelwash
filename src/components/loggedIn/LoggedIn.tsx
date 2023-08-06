@@ -10,6 +10,7 @@ import ClaimsTable from "../table/ClaimsTable";
 import Loader from "../loader/Loader";
 
 type DataType = {
+  kindOfData: string;
   code: number;
   userData?: string;
   timestamp?: string;
@@ -130,14 +131,12 @@ const LoggedIn = () => {
           <Button
             className="bg-blue-700 hover:bg-blue-800 m-1"
             onClick={logoutSessionHandler}
-            // onClick={() => void auth.signoutRedirect()}
           >
             Закончить сессию
           </Button>
           <Button
             className="bg-blue-700 hover:bg-blue-800 m-1"
             onClick={logoutIdentityHandler}
-            // onClick={() => void auth.signoutRedirect()}
           >
             Выйти из IdentityServer
           </Button>
